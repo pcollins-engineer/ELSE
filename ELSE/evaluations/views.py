@@ -159,8 +159,14 @@ class Parser(View):
         Status.objects.filter(id=1).update(populated=True)
         return HttpResponse("Registration roster successfully imported. <br><a href='/administration'>Continue</a>")
 
-
+"""
+The Students view provides a landing page once the emailed link has been clicked. The view lists all
+courses which have yet to be evaluated. Only GET requests are accepted for this view.
+"""
 class Students(View):
+    """
+    The GET method for the Students view 
+    """
     def get(self, request, student_id, token):
         student = Student.objects.filter(id=student_id).first()
         if not student or token != student.token:
