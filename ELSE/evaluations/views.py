@@ -17,15 +17,14 @@ class Administration(View):
         for student in students:
             link = domain + "students/" + student.id + "/" + student.token
             send_mail("Survey", link, "scu.engr.evaluations@gmail.com", [student.email])
-            print(link)
-        print("send survey")
 
     def send_responses(self):
         instructors = Instructor.objects.all()
+        domain = "https://p1collins.pythonanywhere.com/"
+        sender = "scu.engr.evaluations@gmail.com"
         for instructor in instructors:
-            link = "/instructors/" + instructor.last_name + "/" + instructor.token
-            print(link)
-        print("send responses")
+            link = domain + "instructors/" + instructor.last_name + "/" + instructor.token
+            send_mail("Feedback", link, "scu.engr.evaluations@gmail.com", [instructor.email])
 
     def get(self, request):
         status = Status.objects.filter(id=1).first()
