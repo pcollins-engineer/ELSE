@@ -1,3 +1,11 @@
+"""
+ELSE Model Definition
+Author: Peter Collins
+
+In order to perform CRUD operations with the database we utilize Django models. The defintions
+can be found below.
+"""
+
 from django.db import models
 
 

@@ -103,9 +103,9 @@
 			<form method="POST" action="/questions">
 				{% csrf_token %}
 				<tr>
-					<td><input type="text" name="question-prompt"></input></td>
+					<td><input style="width: 100%" type="text" name="question-prompt"></input></td>
 					<td>
-						<select name="question-type">
+						<select style="width: 100%" name="question-type">
 							<option value="NUM">Number</option>
 							<option value="TXT">Text</option>
                     	</select>
