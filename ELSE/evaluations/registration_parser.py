@@ -22,7 +22,6 @@ class RegistrationParser():
     """
 
     def __init__(self, excel_file_path):
-        # check if file exists?
         self.workbook = xlrd.open_workbook(excel_file_path)
         self.sheet = self.workbook.sheet_by_index(0)
         self.fields = self.sheet.row_values(0)

@@ -198,7 +198,6 @@ class Students(View):
             is_active = status.active
         if not is_active:
             return HttpResponse("Error no collection period is active.")
-
         unevaluated_enrollments = Enrollment.objects.filter(
             student=student, evaluated=False)
         if len(unevaluated_enrollments) == 0:
@@ -207,7 +206,6 @@ class Students(View):
             "student": student,
             "unevaluated_enrollments": unevaluated_enrollments
         }
-
         return render(request, "students.html", context)
 
 
@@ -229,12 +227,10 @@ class Instructors(View):
             is_active = status.active
         if is_active:
             return HttpResponse("Error collection period still active.")
-
         context = {
             "instructor": instructor,
             "courses": Course.objects.filter(instructor=instructor)
         }
-
         return render(request, "instructors.html", context)
 
 
