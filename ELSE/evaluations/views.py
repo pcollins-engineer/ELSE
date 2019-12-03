@@ -16,7 +16,7 @@ class Administration(View):
         students = Student.objects.all()
         for student in students:
             link = domain + "students/" + student.id + "/" + student.token
-            send_mail("Survey", link, "scu.engr.evaluations@gmail.com", student.email)
+            send_mail("Survey", link, "scu.engr.evaluations@gmail.com", [student.email])
             print(link)
         print("send survey")
 
