@@ -21,35 +21,42 @@ from django.core.mail import send_mail
 """
 The Administration view provides the functionality to manage the ELSE system.
 """
+
+
 class Administration(View):
 
     """
     The send_survey method generates a link with a secure token for each student and sends emails.
     """
+
     def send_survey(self):
         domain = "https://p1collins.pythonanywhere.com/"
         sender = "scu.engr.evaluations@gmail.com"
         students = Student.objects.all()
         for student in students:
             link = domain + "students/" + student.id + "/" + student.token
-            send_mail("Survey", link, "scu.engr.evaluations@gmail.com", [student.email])
+            send_mail("Survey", link,
+                      "scu.engr.evaluations@gmail.com", [student.email])
 
     """
     The send_responses method generates a link with a secure token for each instructors and sends emails.
     """
+
     def send_responses(self):
         instructors = Instructor.objects.all()
         domain = "https://p1collins.pythonanywhere.com/"
         sender = "scu.engr.evaluations@gmail.com"
         for instructor in instructors:
             link = domain + "instructors/" + instructor.last_name + "/" + instructor.token
-            send_mail("Feedback", link, "scu.engr.evaluations@gmail.com", [instructor.email])
+            send_mail("Feedback", link, "scu.engr.evaluations@gmail.com", [
+                      instructor.email])
 
     """
     The GET method of the Administration view queries information about the system. The system status,
     database record counts, and list of questions are retreived from the database and passed to the template
     for rendering. The method accepts a request object and returns a rendered template response.
     """
+
     def get(self, request):
         status = Status.objects.filter(id=1).first()
         active = False
@@ -76,6 +83,7 @@ class Administration(View):
     the appropriate emails are called to send emails. The method takes in a request object and returns a HttpResponse
     message.
     """
+
     def post(self, request):
         admin_action = request.POST.get("admin-action", None)
         if not Status.objects.filter(id=1).first():
@@ -101,9 +109,12 @@ class Administration(View):
                 return HttpResponse("Error no collection period is active. <br><a href=''>Continue</a>")
         return HttpResponse("An unknown error has occured. <br><a href=''>Continue</a>")
 
+
 """
 The Parser view provides the functionality to populate the database with a provided roster.
 """
+
+
 class Parser(View):
     """
     The save_uploaded_file method takes a file object and writes it to disk in chunks. The method
@@ -111,6 +122,7 @@ class Parser(View):
     is uploaded. The file is always written to be 'registration-roster.xlsx' and overwrites the
     file if it exists.
     """
+
     def save_uploaded_file(self, f):
         with open("registration-roster.xlsx", "wb+") as destination:
             for chunk in f.chunks():
@@ -120,6 +132,7 @@ class Parser(View):
     The flush_db method removes all model instances from the database except questions. The method
     takes no parameters and returns no value.
     """
+
     def flush_db(self):
         Student.objects.all().delete()
         Instructor.objects.all().delete()
@@ -136,6 +149,7 @@ class Parser(View):
     as true upon a successful parse and a success message is returned. The method accepts a request object with
     a FILES array attribute containing key 'registration-roster' and returns an HttpResponse message.
     """
+
     def post(self, request):
         status = Status.objects.filter(id=1).first()
         if status:
@@ -159,10 +173,13 @@ class Parser(View):
         Status.objects.filter(id=1).update(populated=True)
         return HttpResponse("Registration roster successfully imported. <br><a href='/administration'>Continue</a>")
 
+
 """
 The Students view provides a landing page once the emailed link has been clicked. The view lists all
 courses which have yet to be evaluated. Only GET requests are accepted for this view.
 """
+
+
 class Students(View):
     """
     The GET method for the Students view has a number of safety checks. The provided token is tested to
@@ -170,6 +187,7 @@ class Students(View):
     template for rendering in addition to information about the student. Parameters are passed in via the
     URL such as student_id and token (in addition to the request object). A rendered template is returned.
     """
+
     def get(self, request, student_id, token):
         student = Student.objects.filter(id=student_id).first()
         if not student or token != student.token:
@@ -192,10 +210,13 @@ class Students(View):
 
         return render(request, "students.html", context)
 
+
 """
 The Instructors view provides a landing page once the emailed feedback link has been clicked. The view 
 lists all courses which the instructor teaches. Only GET requests are accepted for this view.
 """
+
+
 class Instructors(View):
     def get(self, request, last_name, token):
         instructor = Instructor.objects.filter(
