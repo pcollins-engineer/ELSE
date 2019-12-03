@@ -56,7 +56,7 @@ ROOT_URLCONF = 'ELSE.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["templates"],
+        'DIRS': ["templates", "/home/p1collins/ELSE/ELSE/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
