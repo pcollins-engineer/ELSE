@@ -305,6 +305,10 @@ class Survey(View):
             return HttpResponse("Error no collection period is active.")
         for element in request.POST:
             if "response" in element:
+                if request.POST[element] == "":
+                    return HttpResponse("Invalid Request")
+        for element in request.POST:
+            if "response" in element:
                 question_id = element.split("-")[1]
                 question = Question.objects.filter(id=question_id).first()
                 if question:
