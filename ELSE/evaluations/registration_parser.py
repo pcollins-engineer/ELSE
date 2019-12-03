@@ -25,9 +25,11 @@ class RegistrationParser():
                 student_data, instructor_data, course_data, enrollment_data = self.parse_entry(
                     entry
                 )
-                student = Student(**student_data, token=self.generate_token())
-                student.full_clean()
-                student.save()
+                student = Student.objects.filter(id=student_data["id"]).first()
+                if not student:
+                    student = Student(**student_data, token=self.generate_token())
+                    student.full_clean()
+                    student.save()
                 instructor = Instructor.objects.filter(
                     email=instructor_data["email"]).first()
                 if not instructor:
