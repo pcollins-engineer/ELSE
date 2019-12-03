@@ -1,4 +1,4 @@
-ELSE-VM/*
+VM/*
 *.code-workspace
 *.pyc
 *.xlsx

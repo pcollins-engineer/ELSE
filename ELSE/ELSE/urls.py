@@ -30,4 +30,5 @@ urlpatterns = [
          evaluations.views.Survey.as_view()),
     path("feedback/<slug:last_name>/<slug:course_id>/<slug:token>",
          evaluations.views.Feedback.as_view()),
+    path("login/", evaluations.views.Login.as_view()),
 ]

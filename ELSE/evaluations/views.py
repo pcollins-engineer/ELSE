@@ -9,6 +9,12 @@ from evaluations.registration_parser import RegistrationParser
 from django.core.mail import send_mail
 
 
+class Login(View):
+    def get(self, request):
+        return render(request, "login.html", {})
+    def post(self, request):
+        return render(request, "login.html", {})
+
 class Administration(View):
     def send_survey(self):
         domain = "https://p1collins.pythonanywhere.com/"
