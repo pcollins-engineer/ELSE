@@ -20,7 +20,7 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", login_required(evaluations.views.Administration.as_view())),
+    path("administration/", login_required(evaluations.views.Administration.as_view())),
     path("parser", login_required(evaluations.views.Parser.as_view())),
     path("questions", login_required(evaluations.views.Questions.as_view())),
     path("students/<slug:student_id>/<slug:token>",
