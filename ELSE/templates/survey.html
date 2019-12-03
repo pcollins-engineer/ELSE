@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Survey</title>
+</head>
+
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td colspan="2">Survey</td>
+            </tr>
+            <tr>
+                <td>Prompt</td>
+                <td>Response</td>
+            </tr>
+            {% for question in questions %}
+            <tr>
+                <td>{{ question.prompt }}</td>
+                <td>
+                    {% if question.response_type == "TXT" %}
+                    <input style="width: 100%" type="text" name="response-{{ question.id }}"></input>
+                    {% else %}
+                    <select style="width: 100%" name="response-{{ question.id }}">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2"><input style="width: 100%" type="submit"></input></td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>

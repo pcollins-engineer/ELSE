@@ -1,0 +1,7 @@
+ELSE-VM/*
+*.code-workspace
+*.pyc
+*.xlsx
+*.sqlite3
+ELSE/evaluations/migrations/*
+ELSE/static

@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <title>Administration</title>
+</head>
+
+<body>
+    <form method="POST" action="/parser" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td colspan="2">Import Roster</td>
+            </tr>
+            <tr>
+                <td><input type="file" name="registration-roster" accept=".xlsx"></td>
+                <td><input type="submit" value="Upload"></td>
+            </tr>
+        </table>
+    </form>
+
+
+    <table border="1">
+        <tr>
+            <td colspan="3">Manage Questions</td>
+        </tr>
+        <tr>
+            <td>Prompt</td>
+            <td>Type</td>
+            <td>Action</td>
+        </tr>
+        {% for question in questions %}
+        <form method="POST" action="/questions">
+            {% csrf_token %}
+            <input type="hidden" name="question-id" value="{{ question.id }}"></input>
+            <tr>
+                <td>{{ question.prompt }}</td>
+                <td>{{ question.response_type }}</td>
+                <td><input style="width: 100%" type="submit" name="question-action" value="Delete"></input></td>
+            </tr>
+        </form>
+        {% endfor %}
+        <form method="POST" action="/questions">
+            {% csrf_token %}
+            <tr>
+                <td><input type="text" name="question-prompt"></input></td>
+                <td>
+                    <select name="question-type">
+                        <option value="NUM">Number</option>
+                        <option value="TXT">Text</option>
+                    </select>
+                </td>
+                <td><input style="width: 100%" type="submit" name="question-action" value="Save"></input></td>
+            </tr>
+        </form>
+    </table>
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td colspan="2">Manage Collection</td>
+            </tr>
+            <tr>
+                <td>Active</td>
+                <td>{{ active }}</td>
+            </tr>
+            <tr>
+                <td>Populated</td>
+                <td>{{ populated }}</td>
+            </tr>
+            <tr>
+                <td>Send Survey</td>
+                <td><input style="width: 100%" type="submit" name="admin-action" value="Start"></td>
+            </tr>
+            <tr>
+                <td>Send Responses</td>
+                <td><input style="width: 100%" type="submit" name="admin-action" value="Stop"></td>
+            </tr>
+        </table>
+    </form>
+
+
+
+
+    <table border="1">
+        <tr>
+            <td colspan="2">Database Records</td>
+        </tr>
+
+        <tr>
+            <td>Instructors</td>
+            <td>{{ instructors }}</td>
+        </tr>
+        <tr>
+            <td>Courses</td>
+            <td>{{ courses }}</td>
+        </tr>
+        <tr>
+            <td>Students</td>
+            <td>{{ students }}</td>
+        </tr>
+        <tr>
+            <td>Enrollments</td>
+            <td>{{ enrollments }}</td>
+        </tr>
+        <tr>
+            <td>Responses</td>
+            <td>{{ responses }}</td>
+        </tr>
+    </table>
+</body>
+
+</html>

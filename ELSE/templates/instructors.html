@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <title>Responses</title>
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <td>Course</td>
+            <td>Responses</td>
+        </tr>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.title }}</td>
+            <td><a href="/feedback/{{ instructor.last_name }}/{{ course.id }}/{{ course.token }}">Feedback</a>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+
+</html>
