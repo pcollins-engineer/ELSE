@@ -2,19 +2,24 @@
 Registration Parser
 Author: Peter Collins
 
-The registration parser uses the xlrd 
+The registration parser uses the xlrd Python package in order to parse the provided Excel registration
+roster file. The parser iterates over the data and creates instances of Django models in order to populate
+the database.
 """
-
-import xlrd
-import datetime
-import logging
-from evaluations.models import Student, Instructor, Course, Enrollment
-from django.core.exceptions import ValidationError
-import string
 import random
+import string
+from django.core.exceptions import ValidationError
+from evaluations.models import Student, Instructor, Course, Enrollment
+import logging
+import datetime
+import xlrd
 
 
 class RegistrationParser():
+
+    """
+    The constructor accepts the path to an Excel registration roster file and parses relevant information.
+    """
 
     def __init__(self, excel_file_path):
         # check if file exists?
@@ -22,8 +27,16 @@ class RegistrationParser():
         self.sheet = self.workbook.sheet_by_index(0)
         self.fields = self.sheet.row_values(0)
 
+    """
+    The generate_token method generates a random 64 character ASCII string to be used as secure tokens for
+    authenticating students and instructors.
+    """
+
     def generate_token(self):
         return "".join(random.choice(string.ascii_letters) for i in range(64))
+
+    """
+    """
 
     def parse_all(self):
         for index in range(1, self.sheet.nrows):
@@ -34,7 +47,8 @@ class RegistrationParser():
                 )
                 student = Student.objects.filter(id=student_data["id"]).first()
                 if not student:
-                    student = Student(**student_data, token=self.generate_token())
+                    student = Student(
+                        **student_data, token=self.generate_token())
                     student.full_clean()
                     student.save()
                 instructor = Instructor.objects.filter(
