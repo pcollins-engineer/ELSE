@@ -26,7 +26,7 @@ SECRET_KEY = 'p@zw^lka=n_pb1k06$v^$jqh5kzz=%5^z7m4x-4-d$!7i-cei3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["p1collins.pythonanywhere.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "p1collins.pythonanywhere.com"]
 
 
 # Application definition
@@ -129,3 +129,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "scu.engr.evaluations@gmail.com"
+EMAIL_HOST_PASSWORD = "COEN.174"
