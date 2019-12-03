@@ -20,9 +20,12 @@ from django.core.mail import send_mail
 
 """
 The Administration view provides the functionality to manage the ELSE system.
-
 """
 class Administration(View):
+
+    """
+    The send_survey method generates a link with a secure token for each student and sends emails.
+    """
     def send_survey(self):
         domain = "https://p1collins.pythonanywhere.com/"
         sender = "scu.engr.evaluations@gmail.com"
@@ -31,6 +34,9 @@ class Administration(View):
             link = domain + "students/" + student.id + "/" + student.token
             send_mail("Survey", link, "scu.engr.evaluations@gmail.com", [student.email])
 
+    """
+    The send_responses method generates a link with a secure token for each instructors and sends emails.
+    """
     def send_responses(self):
         instructors = Instructor.objects.all()
         domain = "https://p1collins.pythonanywhere.com/"
@@ -39,6 +45,11 @@ class Administration(View):
             link = domain + "instructors/" + instructor.last_name + "/" + instructor.token
             send_mail("Feedback", link, "scu.engr.evaluations@gmail.com", [instructor.email])
 
+    """
+    The GET method of the Administration view queries information about the system. The system status,
+    database record counts, and list of questions are retreived from the database and passed to the template
+    for rendering. The method accepts a request object and returns a rendered template response.
+    """
     def get(self, request):
         status = Status.objects.filter(id=1).first()
         active = False
