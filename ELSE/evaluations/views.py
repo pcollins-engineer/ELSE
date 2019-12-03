@@ -165,7 +165,10 @@ courses which have yet to be evaluated. Only GET requests are accepted for this 
 """
 class Students(View):
     """
-    The GET method for the Students view 
+    The GET method for the Students view has a number of safety checks. The provided token is tested to
+    be valid. The status of the application must be active. All unevaluated enrollments are passed to the
+    template for rendering in addition to information about the student. Parameters are passed in via the
+    URL such as student_id and token (in addition to the request object). A rendered template is returned.
     """
     def get(self, request, student_id, token):
         student = Student.objects.filter(id=student_id).first()
@@ -189,7 +192,10 @@ class Students(View):
 
         return render(request, "students.html", context)
 
-
+"""
+The Instructors view provides a landing page once the emailed feedback link has been clicked. The view 
+lists all courses which the instructor teaches. Only GET requests are accepted for this view.
+"""
 class Instructors(View):
     def get(self, request, last_name, token):
         instructor = Instructor.objects.filter(
