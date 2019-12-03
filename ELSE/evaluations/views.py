@@ -6,13 +6,17 @@ from django.views import View
 from evaluations.models import Instructor, Course, Student, Enrollment
 from evaluations.models import Status, Question, TextResponse, NumberResponse, Response
 from evaluations.registration_parser import RegistrationParser
+from django.core.mail import send_mail
 
 
 class Administration(View):
     def send_survey(self):
+        domain = "https://p1collins.pythonanywhere.com/"
+        sender = "scu.engr.evaluations@gmail.com"
         students = Student.objects.all()
         for student in students:
-            link = "/students/" + student.id + "/" + student.token
+            link = domain + "students/" + student.id + "/" + student.token
+            send_mail("Survey", link, "scu.engr.evaluations@gmail.com", student.email)
             print(link)
         print("send survey")
 
