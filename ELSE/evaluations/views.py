@@ -88,6 +88,8 @@ class Parser(View):
         Instructor.objects.all().delete()
         Course.objects.all().delete()
         Enrollment.objects.all().delete()
+        TextResponse.objects.all().delete()
+        NumberResponse.objects.all.delete()
 
     def post(self, request):
         status = Status.objects.filter(id=1).first()
