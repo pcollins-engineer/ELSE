@@ -1,3 +1,10 @@
+"""
+Registration Parser
+Author: Peter Collins
+
+The registration parser uses the xlrd 
+"""
+
 import xlrd
 import datetime
 import logging
