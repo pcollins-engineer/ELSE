@@ -1,3 +1,12 @@
+"""
+ELSE View Definition
+Author: Peter Collins
+
+The meat of the application is defined here. The business logic of each view is housed in a named class.
+Class based views are utilized which define actions for GET and POST requests or both in some cases.
+Small messages are returned using the HttpResponse method while for more complex views a template is rendered.
+"""
+
 import xlrd
 import datetime
 from django.shortcuts import render
@@ -9,6 +18,10 @@ from evaluations.registration_parser import RegistrationParser
 from django.core.mail import send_mail
 
 
+"""
+The Administration view provides the functionality to manage the ELSE system.
+
+"""
 class Administration(View):
     def send_survey(self):
         domain = "https://p1collins.pythonanywhere.com/"
@@ -83,7 +96,7 @@ class Parser(View):
         Course.objects.all().delete()
         Enrollment.objects.all().delete()
         TextResponse.objects.all().delete()
-        NumberResponse.objects.all.delete()
+        NumberResponse.objects.all().delete()
 
     def post(self, request):
         status = Status.objects.filter(id=1).first()
