@@ -273,12 +273,12 @@ class Feedback(View):
                         feedback.append(response.feedback)
             result = {
                 "question": question,
-                "feedback": feedback,
-                "course": course
+                "feedback": feedback
             }
             results.append(result)
         context = {
-            "results": results
+            "results": results,
+            "course": course
         }
         link = "/instructors/" + instructor.last_name + "/" + instructor.token
         if len(results) == 0:
