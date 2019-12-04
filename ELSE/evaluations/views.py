@@ -216,10 +216,19 @@ lists all courses which the instructor teaches. Only GET requests are accepted f
 
 
 class Instructors(View):
+    """
+    The GET method for the Instructors view accepts a request object, last name and token as parameters.
+    The method checks to ensure the token is valid, the collection period is inactive and the last name
+    parameter matches the database otherwise an error is returned. The instructor object and the taught
+    courses are passed to the template for rendering. A rendered template is returned.
+    """
+
     def get(self, request, last_name, token):
         instructor = Instructor.objects.filter(
             last_name=last_name, token=token).first()
         if not instructor or token != instructor.token:
+            return HttpResponse("Invalid Request")
+        if instructor.last_name != last_name:
             return HttpResponse("Invalid Request")
         is_active = False
         status = Status.objects.filter(id=1).first()
@@ -264,7 +273,8 @@ class Feedback(View):
                         feedback.append(response.feedback)
             result = {
                 "question": question,
-                "feedback": feedback
+                "feedback": feedback,
+                "course": course
             }
             results.append(result)
         context = {

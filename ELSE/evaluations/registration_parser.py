@@ -35,6 +35,10 @@ class RegistrationParser():
         return "".join(random.choice(string.ascii_letters) for i in range(64))
 
     """
+    The parse_all method is the primary method of the parser. The method iterates over all rows in the Excel
+    spreadsheet and serializes the data into a format the Django models will understand. In each iteration
+    a database lookup is performed to see if a record already exists, if not a token is generated and an object
+    instance is created. The method takes no parameter and returns no values.
     """
 
     def parse_all(self):
@@ -73,6 +77,12 @@ class RegistrationParser():
             except Exception as e:
                 print(e)
 
+    """
+    The parse_entry method normalizes data from a spreadsheet row (zipped with column headers) into a tuple
+    of dictonaries which the Django models can readily accept. The method accepts a parameter of a dict row
+    entry and returns a tuple of dicts containing normalized data.
+    """
+
     def parse_entry(self, entry):
         student_data = dict(
             id=entry["Student ID"],
@@ -109,6 +119,11 @@ class RegistrationParser():
             dropped=drop_date != None
         )
         return student_data, instructor_data, course_data, enrollment_data
+
+    """
+    The parse_data method is a helper method to format dates given Excels unique method of representation.
+    The method accepts an Excel formatted data as a parameter and returns a Python datetime object.
+    """
 
     def parse_date(self, excel_date):
         if excel_date == "":
