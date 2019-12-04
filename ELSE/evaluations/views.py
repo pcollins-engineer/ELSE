@@ -243,7 +243,22 @@ class Instructors(View):
         return render(request, "instructors.html", context)
 
 
+"""
+The Feedback view provides feedback to an instructor for a given course. Access is controlled to these
+pages via secret tokens.
+"""
+
+
 class Feedback(View):
+    """
+    The GET method of the Feedback view accepts several parameters. A request object, last name, course ID
+    and token. Several safety checks are in place if they are not met an error is produced. The token must
+    be valid, the last name must be validated, the survey collection period must not be active. The method
+    queries all questions and iterates over the set. For each question all responses are gathered which
+    pertain to the given course. The responses are added to a list and then passed to the template for 
+    rendering along with information about the course. If no feedback exists an error message is returned.
+    """
+
     def get(self, request, last_name, course_id, token):
         course = Course.objects.filter(id=course_id).first()
         if not course or course.token != token:
@@ -286,7 +301,19 @@ class Feedback(View):
         return render(request, "feedback.html", context)
 
 
+"""
+The Survey view allows students to answer questions about their lab and save their responses.
+"""
+
+
 class Survey(View):
+    """
+    The GET method of the Survey view generates the survey for students. The method accepts a request
+    object, a student ID, a course ID and a token. The parameters are validated along with the token
+    otherwise an error is produced. Information about the student, questions and enrollment are 
+    passed to the template to be rendered and returned.
+    """
+
     def get(self, request, student_id, course_id, token):
         student = Student.objects.filter(id=student_id).first()
         course = Course.objects.filter(id=course_id).first()
@@ -311,6 +338,13 @@ class Survey(View):
             "enrollment": enrollment
         }
         return render(request, "survey.html", context)
+
+    """
+    The POST method of the Survey view saves the results for students. The parameters and token are
+    validated in the same way as the GET method. An error is produced if the survey period is not active.
+    The posted responses to the questions are parsed and then saved associated with the proper question.
+    An HttpResponse message is returned.
+    """
 
     def post(self, request, student_id, course_id, token):
         student = Student.objects.filter(id=student_id).first()
@@ -350,7 +384,20 @@ class Survey(View):
         return HttpResponse("Survey responses saved. <br><a href='" + link + "'>Continue</a>")
 
 
+"""
+The Questions view is responsible for saving and deleting questions from the administrative page. The view
+only accepts POST requests.
+"""
+
+
 class Questions(View):
+    """
+    The POST method parses POST parameters and saves or deletes questions. The various information is parsed
+    from the request parameter and updated in the database. A number of safety checks are in place to prevent
+    empty questions and invalid requests. The method returns messages in an HttpResponse.
+
+    """
+
     def post(self, request):
         status = Status.objects.filter(id=1).first()
         if status and status.active:
